@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Task One</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <link rel="icon" type="icon/x-icon" href="imgs/deltaLogo.png">
+</head>
+<body>
+    <div class="player red" id="red">
+        <div class="info" id="redInfo">
+            <img src="imgs/redPlayer.jpg" alt="RedPFP" class="pfp red">
+            <p>Red</p>
+            <p id="rs">+0</p>
+        </div>
+        <img src="imgs/crown.png" alt="redCrown" id="rc">
+        <div class="timer" id="redTimer">1:00</div>
+    </div>
+    <div>
+        <div class="map">
+            <div class="forTitan">
+                <img src="imgs/gameMap.png" alt="imageMap" id="gameMap">
+                <div id="blueTitan1"></div>
+                <div id="blueTitan2"></div>
+                <div id="blueTitan3"></div>
+                <div id="blueTitan4"></div>
+                <div id="redTitan1"></div>
+                <div id="redTitan2"></div>
+                <div id="redTitan3"></div>
+                <div id="redTitan4"></div>
+                <div id="selector"></div>
+            </div>
+            <div id="Ttimer">10:00</div>
+            <img src="imgs/play.png" alt="toggle button" class="toggle" onclick="toggle()" id="toggle">
+            <img src="imgs/reset.png" alt="reset button" class="reset" id="reset" onclick="reset()">
+        </div>
+    </div>
+    <div class="player blue" id="blue">
+        <div class="info" id="blueInfo">
+            <img src="imgs/BluePlayer.jpg" alt="BluePFP" class="pfp blue">
+            <p>Blue</p>
+            <p id="bs">+0</p>
+        </div>
+        <img src="imgs/crown.png" alt="blueCrown" id="bc">
+        <div class="timer" id="blueTimer">1:00</div>
+    </div>
+
+    <script src="timer.js"></script>
+</body>
+</html>
