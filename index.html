@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Task One - Redesigned</title>
+    <title>Game</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Red Player Section -->
     <div class="player red" id="red">
         <div class="info" id="redInfo">
-            <!-- Removed Image -->
             <div class="player-icon red-icon"></div>
-            <p class="player-name">Red Team</p>
-            <p id="rs" class="score-display">+0</p>
+            <p class="player-name">Red</p>
+            <p id="rs">+0</p>
         </div>
         <div class="timer" id="redTimer">1:00</div>
     </div>
-
-    <!-- Game Map Section -->
     <div class="map-container">
         <div class="map">
             <div class="forTitan">
@@ -32,23 +28,19 @@
                 <div id="redTitan4"></div>
                 <div id="selector"></div>
             </div>
-            <div id="Ttimer" class="total-timer">10:00</div>
-            <button class="toggle-button" onclick="toggle()" id="toggle">Play</button>
-            <button class="reset-button" id="reset" onclick="reset()">Reset</button>
+            <div id="Ttimer">10:00</div>
+            <button id="toggle" onclick="toggle()">Play</button>
+            <button id="reset" onclick="reset()">Reset</button>
         </div>
     </div>
-
-    <!-- Blue Player Section -->
     <div class="player blue" id="blue">
         <div class="info" id="blueInfo">
-            <!-- Removed Image -->
             <div class="player-icon blue-icon"></div>
-            <p class="player-name">Blue Team</p>
-            <p id="bs" class="score-display">+0</p>
+            <p class="player-name">Blue</p>
+            <p id="bs">+0</p>
         </div>
         <div class="timer" id="blueTimer">1:00</div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
