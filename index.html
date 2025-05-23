@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Task One</title>
-    <link rel="stylesheet" href="stylesheet.css">
-    <link rel="icon" type="icon/x-icon" href="imgs/deltaLogo.png">
+    <title>Delta Task One - Redesigned</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- Red Player Section -->
     <div class="player red" id="red">
         <div class="info" id="redInfo">
-            <img src="imgs/redPlayer.jpg" alt="RedPFP" class="pfp red">
-            <p>Red</p>
-            <p id="rs">+0</p>
+            <!-- Removed Image -->
+            <div class="player-icon red-icon"></div>
+            <p class="player-name">Red Team</p>
+            <p id="rs" class="score-display">+0</p>
         </div>
-        <img src="imgs/crown.png" alt="redCrown" id="rc">
         <div class="timer" id="redTimer">1:00</div>
     </div>
-    <div>
+
+    <!-- Game Map Section -->
+    <div class="map-container">
         <div class="map">
             <div class="forTitan">
-                <img src="imgs/gameMap.png" alt="imageMap" id="gameMap">
                 <div id="blueTitan1"></div>
                 <div id="blueTitan2"></div>
                 <div id="blueTitan3"></div>
@@ -31,21 +32,23 @@
                 <div id="redTitan4"></div>
                 <div id="selector"></div>
             </div>
-            <div id="Ttimer">10:00</div>
-            <img src="imgs/play.png" alt="toggle button" class="toggle" onclick="toggle()" id="toggle">
-            <img src="imgs/reset.png" alt="reset button" class="reset" id="reset" onclick="reset()">
+            <div id="Ttimer" class="total-timer">10:00</div>
+            <button class="toggle-button" onclick="toggle()" id="toggle">Play</button>
+            <button class="reset-button" id="reset" onclick="reset()">Reset</button>
         </div>
     </div>
+
+    <!-- Blue Player Section -->
     <div class="player blue" id="blue">
         <div class="info" id="blueInfo">
-            <img src="imgs/BluePlayer.jpg" alt="BluePFP" class="pfp blue">
-            <p>Blue</p>
-            <p id="bs">+0</p>
+            <!-- Removed Image -->
+            <div class="player-icon blue-icon"></div>
+            <p class="player-name">Blue Team</p>
+            <p id="bs" class="score-display">+0</p>
         </div>
-        <img src="imgs/crown.png" alt="blueCrown" id="bc">
         <div class="timer" id="blueTimer">1:00</div>
     </div>
 
-    <script src="timer.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
