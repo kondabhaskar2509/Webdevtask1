@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,  initial-scale=1.0">
+    <title>Titan's Circuit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+ <div class ="player">
+    <div class="red player" id="red">
+        <div class="data" id="reddata">
+            Red Score:
+            <p id="redscore">0</p>
+        </div>
+        <div class="timer" id="redtimer">0:30</div>
+    </div>
+
+    <div class="blue player" id="blue">
+        <div class="data" id="bluedata">
+            Blue Score:
+            <p id="bluescore">0</p>
+        </div>
+        <div class="timer" id="bluetimer">0:30</div>
+    </div>
+</div>
+
+  <div class="text" id="text">Welcome To Titans's Circuit Game , Hope You Enjoy The Game. </br> Blue Starts The Game</div>
+    
+
+    <div>
+        <div class="circuit">
+            <div class="titans">
+                <img src="circuit.png" alt="circuit" id="circuit">
+                <div id="blue1"></div>
+                <div id="blue2"></div>
+                <div id="blue3"></div>
+                <div id="blue4"></div>
+                <div id="red1"></div>
+                <div id="red2"></div>
+                <div id="red3"></div>
+                <div id="red4"></div>
+                <div id="mover"></div>
+            </div>
+                <div id="gametimer">10:00</div>
+                <input type="button" class="toggle" id="toggle" value="PLAY" onclick="toggle()" ></type>
+                <input type="button" class="reset" id="reset" value="RESET" onclick="reset()">
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
