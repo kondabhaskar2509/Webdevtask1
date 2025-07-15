@@ -18,24 +18,24 @@ setInterval(() => {
 let outerNodes = [1, 2, 3, 4, 5, 6];
 let innerNodes = [18, 17, 16, 15, 14, 13];
 let nodeData = [
-  [1, [2, 6, 7], [35, 450], [2, 3, 1]],
-  [2, [1, 3], [242, 93], [2, 1]],
-  [3, [2, 4, 9], [656, 93], [1, 2, 1]],
-  [4, [3, 5], [862, 450], [2, 1]],
-  [5, [4, 6, 11], [656, 805], [1, 1, 1]],
-  [6, [1, 5], [242, 805], [3, 1]],
-  [7, [1, 8, 12], [175, 450], [1, 5, 4]],
-  [8, [7, 9, 17], [313, 213], [5, 6, 1]],
-  [9, [3, 8, 10], [587, 213], [1, 6, 4]],
-  [10, [9, 11, 15], [725, 450], [4, 5, 1]],
-  [11, [5, 10, 12], [587, 690], [1, 5, 6]],
-  [12, [7, 11, 13], [313, 690], [4, 6, 1]],
-  [13, [12, 14, 18], [381, 569], [1, 8, 9]],
-  [14, [13, 15], [519, 568], [8, 8]],
-  [15, [10, 14, 16], [587, 450], [1, 8, 9]],
-  [16, [15, 17], [520, 331], [9, 8]],
-  [17, [8, 16, 18], [381, 331], [1, 8, 8]],
-  [18, [13, 17], [313, 450], [9, 8]],
+  [1, [2, 6, 7], [35, 450], [2, 3, 1], "O1"],
+  [2, [1, 3], [242, 93], [2, 1], "O2"],
+  [3, [2, 4, 9], [656, 93], [1, 2, 1], "O3"],
+  [4, [3, 5], [862, 450], [2, 1], "O4"],
+  [5, [4, 6, 11], [656, 805], [1, 1, 1], "O5"],
+  [6, [1, 5], [242, 805], [3, 1], "O6"],
+  [7, [1, 8, 12], [175, 450], [1, 5, 4], "M1"],
+  [8, [7, 9, 17], [313, 213], [5, 6, 1], "M2"],
+  [9, [3, 8, 10], [587, 213], [1, 6, 4], "M3"],
+  [10, [9, 11, 15], [725, 450], [4, 5, 1], "M4"],
+  [11, [5, 10, 12], [587, 690], [1, 5, 6], "M5"],
+  [12, [7, 11, 13], [313, 690], [4, 6, 1], "M6"],
+  [13, [12, 14, 18], [381, 569], [1, 8, 9], "I1"],
+  [14, [13, 15], [519, 568], [8, 8], "I2"],
+  [15, [10, 14, 16], [587, 450], [1, 8, 9], "I3"],
+  [16, [15, 17], [520, 331], [9, 8], "I4"],
+  [17, [8, 16, 18], [381, 331], [1, 8, 8], "I5"],
+  [18, [13, 17], [313, 450], [9, 8], "I6"],
 ];
 
 class GamePlayer {
@@ -54,8 +54,7 @@ let red = new GamePlayer(false);
 let moveHistory = [];
 let redoStack = [];
 
-function recordMove() {
-  // Save a deep copy of the current game state
+function recordMove(sourceNode, targetNode) {
   const state = {
     bluePositions: [...blue.nodePositions],
     redPositions: [...red.nodePositions],
@@ -66,9 +65,10 @@ function recordMove() {
     gamePaused: gamePaused,
     selectedNode: selectedNode,
     clickedNode: clickedNode,
+    sourceNode: sourceNode,
+    targetNode: targetNode,
   };
   moveHistory.push(state);
-  // Clear redo stack on new move
   redoStack = [];
 }
 
@@ -90,7 +90,6 @@ function undoMove() {
     redoStack.push(currentState);
     const prevState = moveHistory[moveHistory.length - 1];
     restoreState(prevState);
-    // Update UI accordingly
     calculateScores();
     updatePieces();
     updateTimers();
@@ -103,7 +102,6 @@ function redoMove() {
     const nextState = redoStack.pop();
     moveHistory.push(nextState);
     restoreState(nextState);
-    // Update UI accordingly
     calculateScores();
     updatePieces();
     updateTimers();
@@ -152,7 +150,7 @@ function checkSurrounded() {
       }
     }
   }
-  
+
   for (let i of red.nodePositions) {
     let surrounded = true;
     if (i != 0) {
@@ -231,25 +229,22 @@ function isInnerCircleComplete() {
 
 function EndGame() {
   gameTimeLeft = 0;
-  if (blue.turnTimeLeft <= 0 || blue.allEliminated) {
+  if (blue.playerScore === red.playerScore) {
+    text.innerHTML = "Draw!";
+  } else if (blue.turnTimeLeft <= 0 || blue.allEliminated) {
     redWon();
   } else if (red.turnTimeLeft <= 0 || red.allEliminated) {
     blueWon();
-  } else if (blue.playerScore >= red.playerScore) {
+  } else if (blue.playerScore > red.playerScore) {
     blueWon();
   } else {
-  redWon();
+    redWon();
   }
   reset.style.display = "block";
   gametimer.innerHTML = "--:--";
   bluetimer.innerHTML = "-:--";
   redtimer.innerHTML = "-:--";
-  
-  // Save game result to leaderboard
-  saveGameResult(blue.playerScore, red.playerScore, elapsedTime);
-  
-  // Display leaderboard
-  displayLeaderboard();
+  toggle.style.display = "none"
 }
 
 function blueWon() {
