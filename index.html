@@ -53,19 +53,17 @@
         </div>
     </div>
 
-    <div class="info-column">
-        <div class="move-history" id="moveHistoryContainer">
-            <h3>Move History</h3>
-            <ul id="moveHistoryList"></ul>
+        <div class="info-panels">
+            <div class="move-history" id="moveHistoryContainer">
+                <h3>Move History</h3>
+                <ul id="moveHistoryList"></ul>
+            </div>
+            <div class="leaderboard" id="leaderboardContainer">
+                <h3>Leaderboard</h3>
+                <div style="font-weight:bold;color:red;">Red High Score: <span id="redHighScore">0</span></div>
+                <div style="font-weight:bold;color:blue;">Blue High Score: <span id="blueHighScore">0</span></div>
+            </div>
         </div>
-        
-        <div class="leaderboard" id="leaderboardContainer">
-            <h3>Leaderboard</h3>
-            <ul id="leaderboardList"></ul>
-        </div>
-        
-        <div id="leaderboard" style="display: none;"></div>
-    </div>
 </div>
 
 <script src="gameLogic.js"></script>
