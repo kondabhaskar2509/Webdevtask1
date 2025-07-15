@@ -9,6 +9,11 @@ const bluedata = document.getElementById("bluedata");
 const reddata = document.getElementById("reddata");
 const redscore = document.getElementById("redscore");
 const bluescore = document.getElementById("bluescore");
+const redHighScore = document.getElementById("redHighScore");
+const blueHighScore = document.getElementById("blueHighScore");
+const undoButton = document.getElementById("undo");
+const redoButton = document.getElementById("redo");
+const moveHistoryList = document.getElementById("moveHistoryList");
 const blue1 = document.getElementById("blue1");
 const blue2 = document.getElementById("blue2");
 const blue3 = document.getElementById("blue3");
@@ -22,6 +27,11 @@ const text = document.getElementById("text");
 let x = 0;
 let y = 0;
 let rect = circuit.getBoundingClientRect();
+
+window.addEventListener("DOMContentLoaded", () => {
+  if (redHighScore) redHighScore.textContent = parseInt(localStorage.getItem("redHighScore")) || 0 ;
+  if (blueHighScore) blueHighScore.textContent = parseInt(localStorage.getItem("blueHighScore")) || 0;
+});
 
 circuit.addEventListener("click", (event) => {
   x = event.pageX - rect.left;
@@ -139,6 +149,30 @@ function togglePause() {
 }
 
 function resetGame() {
+  const currentRed = parseInt(redscore.innerHTML);
+  const currentBlue = parseInt(bluescore.innerHTML);
+  let redHighScore = parseInt(localStorage.getItem("redHighScore"));
+  let blueHighScore = parseInt(localStorage.getItem("blueHighScore"));
+
+  if (currentRed > redHighScore) {
+    redHighScore = currentRed;
+    localStorage.setItem("redHighScore", redHighScore);
+  }
+  if (currentBlue > blueHighScore) {
+    blueHighScore = currentBlue;
+    localStorage.setItem("blueHighScore", blueHighScore);
+  }
+
+  if (redHighScore) redHighScore.textContent = redHighScore;
+  if (blueHighScore) blueHighScore.textContent = blueHighScore;
+
+  moveHistory = [];
+  redoStack = [];
+  const moveHistoryList = document.getElementById("moveHistoryList");
+  if (moveHistoryList) {
+    moveHistoryList.innerHTML = "";
+  }
+
   if (gameInterval != null) {
     clearInterval(gameInterval);
     gameInterval = null;
@@ -164,8 +198,8 @@ function resetGame() {
   isMoving = false;
   outerNodes = [1, 2, 3, 4, 5, 6];
   reset.style.display = "none";
-  toggle.src = "imgs/play.png";
-
+  toggle.value = "PLAY";
+  toggle.style.display = "block";
   blue1.style.display = "none";
   blue2.style.display = "none";
   blue3.style.display = "none";
@@ -178,6 +212,7 @@ function resetGame() {
 
   gameTimeLeft = 600;
   gametimer.innerHTML = "10:00";
+  window.location.reload();
 }
 
 function switchPlayer() {
@@ -273,11 +308,10 @@ function updatePieces() {
       elem.style.display = "block";
       const left = (nodeData[pos - 1][2][0] - 17) / scaleFactor;
       const top = (nodeData[pos - 1][2][1] - 17) / scaleFactor;
-      // Animate movement
+      // pieces movement animation
       elem.style.transition = "left 0.5s ease, top 0.5s ease";
       elem.style.left = left + "px";
       elem.style.top = top + "px";
-      // Don't play sound on every update, only on actual moves
     }
   });
 }
@@ -285,12 +319,8 @@ function updatePieces() {
 reset.addEventListener("click", resetGame);
 toggle.addEventListener("click", togglePause);
 
-const undoButton = document.getElementById("undo");
-const redoButton = document.getElementById("redo");
 
-const moveHistoryList = document.getElementById("moveHistoryList");
-
-// Load audio files
+// audio controls
 const moveSound = new Audio("click.wav");
 const popSound = new Audio("pop.wav");
 
@@ -300,13 +330,10 @@ function playMoveSound() {
     moveSound.play();
   }
 }
-
 function playPopSound() {
   popSound.currentTime = 0;
   popSound.play();
 }
-
-// Override global playPopSound for gameLogic.js
 window.playPopSound = playPopSound;
 
 undoButton.addEventListener("click", () => {
@@ -317,49 +344,42 @@ redoButton.addEventListener("click", () => {
   redoMove();
 });
 
+//move history recording and displaying
 function updateMoveHistory() {
   moveHistoryList.innerHTML = "";
+  if (moveHistory.length === 0) {
+    const li = document.createElement("li");
+    li.textContent = "Game reset.";
+    moveHistoryList.appendChild(li);
+    return;
+  }
   for (let i = 0; i < moveHistory.length; i++) {
     const state = moveHistory[i];
-    let moveText = `Move ${i + 1}: ${
-      state.blueTurn ? "Blue's turn" : "Red's turn"
-    }`;
-    
+    let moveText = `Move ${i + 1}: ${state.blueTurn ? "Blue" : "Red"}`;
     if (state.sourceNode && state.targetNode) {
-      moveText += ` - Moved from Node ${state.sourceNode} to Node ${state.targetNode}`;
+      let sourceName = state.sourceNode
+        ? nodeData[state.sourceNode - 1][4]
+        : state.sourceNode;
+      let targetName = state.targetNode
+        ? nodeData[state.targetNode - 1][4]
+        : state.targetNode;
+      moveText += ` - ${sourceName} to ${targetName}`;
     } else if (state.targetNode) {
-      moveText += ` - Placed at Node ${state.targetNode}`;
+      let targetName = nodeData[state.targetNode - 1][4];
+      moveText += ` - Placed at ${targetName}`;
+    } else {
+      moveText += " - Placed";
     }
-    
-    moveText += ` - Blue positions: ${state.bluePositions.join(", ")} - Red positions: ${state.redPositions.join(", ")}`;
-    
     const li = document.createElement("li");
     li.textContent = moveText;
     moveHistoryList.appendChild(li);
   }
 }
 
-// Override undoMove and redoMove to update move history UI
-const originalUndoMove = undoMove;
-undoMove = function () {
-  originalUndoMove();
+const originalRecordMove = recordMove;
+recordMove = function (sourceNode, targetNode) {
+  originalRecordMove.apply(this, arguments);
   updateMoveHistory();
 };
 
-const originalRedoMove = redoMove;
-redoMove = function () {
-  originalRedoMove();
-  updateMoveHistory();
-};
 
-// Update move history on reset and initial load
-const originalResetGame = resetGame;
-resetGame = function () {
-  originalResetGame();
-  moveHistory = [];
-  redoStack = [];
-  recordMove(null, null);
-  updateMoveHistory();
-};
-
-reset();
