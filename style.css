@@ -86,16 +86,19 @@ body {
 
 .player {
   font-family: "Courier New", Courier, monospace;
-  font-size: 3.5vh;
+  font-size: 3vh;
   width: 60vw;
-  padding: min(1.2vw, 1.2vh) min(2vh, 2vw);
+  padding: 0.5rem 1rem;
   border-radius: 0.75rem;
-  display: block;
-
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 0.5rem;
+}
+.red.player,
+.blue.player {
+  margin-bottom: 0.5rem;
 }
 
 .data,
@@ -103,13 +106,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   width: fit-content;
   background-color: whitesmoke;
   border-radius: 0.75rem;
-
   padding: 1% 1.5% 1% 1.5%;
-
   box-shadow: 0.3rem 0.3rem 0.3rem rgba(28, 28, 28, 0.644);
   text-shadow: 0.05rem 0.05rem 0.05rem rgba(28, 28, 28, 0.644);
   font-weight: bold;
@@ -172,6 +172,19 @@ p {
   font-size: 1.8vh;
   color: black;
 }
+.leaderboard {
+  width: 100%;
+  max-height: 35vh;
+  overflow-y: auto;
+  background-color: white;
+  border: 0.3rem solid black;
+  border-radius: 0.75rem;
+  padding: 10px;
+  margin-top: 1rem;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1.5vh;
+  color: black;
+}
 
 .move-history h3 {
   margin-top: 0;
@@ -190,20 +203,6 @@ p {
   margin-bottom: 0.3rem;
 }
 
-.leaderboard {
-  width: 100%;
-  max-height: 35vh;
-  overflow-y: auto;
-  background-color: white;
-  border: 0.3rem solid black;
-  border-radius: 0.75rem;
-  padding: 10px;
-  margin-top: 1rem;
-  font-family: "Courier New", Courier, monospace;
-  font-size: 1.5vh;
-  color: black;
-}
-
 .leaderboard h3 {
   margin-top: 0;
   margin-bottom: 0.5rem;
@@ -216,7 +215,8 @@ p {
   border-collapse: collapse;
 }
 
-.leaderboard th, .leaderboard td {
+.leaderboard th,
+.leaderboard td {
   padding: 0.3rem;
   text-align: left;
   border-bottom: 1px solid #ddd;
@@ -291,69 +291,34 @@ p {
   align-items: center;
 }
 
-.info-column {
+.info-panels {
   flex: 1;
   display: flex;
   flex-direction: column;
   min-width: 250px;
 }
 
-@media (max-width: 900px) {
-  .player,
-  .text,
-  .circuit {
-    width: 90vw;
-    font-size: 2.5vh;
-  }
-  
-  .main-container {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .game-column,
-  .info-column {
-    width: 100%;
-  }
-  
-  .move-history,
-  .leaderboard {
-    width: 100%;
-    font-size: 2.2vh;
-  }
-  
-  #gametimer {
-    font-size: 1.5rem;
-    width: min(30vw, 30vh);
-    height: min(12vw, 12vh);
-  }
-  
-  .toggle,
-  .reset {
-    width: 100px;
-    height: 50px;
-    font-size: 2.2vh;
-  }
-}
-@media (max-width: 600px) {
+
+
+@media (max-width: 480px) {
   body {
     padding: 0.5rem;
     justify-content: flex-start;
     align-items: stretch;
     overflow-x: hidden;
   }
-  
+
   .main-container {
     flex-direction: column;
     width: 100%;
     gap: 0;
   }
-  
+
   .game-column,
-  .info-column {
+  .info-panels {
     width: 100%;
   }
-  
+
   .player {
     flex-direction: column;
     width: 95vw;
@@ -361,16 +326,18 @@ p {
     align-items: stretch;
     padding: 0.8rem;
   }
-  
+
   .red.player,
   .blue.player {
     width: 100%;
     margin: 0;
+    display: flex;
+    flex-direction: row;
     position: static;
     border-radius: 0.75rem;
     box-sizing: border-box;
   }
-  
+
   .text,
   .move-history,
   .leaderboard {
@@ -380,15 +347,7 @@ p {
     margin: 0.5rem 0;
     box-sizing: border-box;
   }
-  
-  .move-history {
-    height: 40vh;
-  }
-  
-  .leaderboard {
-    max-height: 30vh;
-  }
-  
+
   .circuit {
     width: 95vw;
     flex-direction: column;
@@ -398,29 +357,30 @@ p {
     margin: 0;
     box-sizing: border-box;
   }
-  
+
   #circuit {
     width: 80vw;
     max-width: 80vw;
     height: auto;
     margin: 0 auto;
   }
-  
+
   .titans {
     display: flex;
     justify-content: center;
     align-items: center;
   }
-  
+
   #gametimer {
     position: static;
     margin: 0.5rem auto;
     width: 90vw;
     height: auto;
+    max-width: 200px;
     font-size: 1.2rem;
     box-sizing: border-box;
   }
-  
+
   .toggle,
   .reset,
   .undo,
@@ -434,12 +394,12 @@ p {
     font-size: 1rem;
     border-radius: 1rem;
   }
-  
+
   .undo,
   .redo {
     margin-top: 0.5rem;
   }
-  
+
   #blue1,
   #blue2,
   #blue3,
@@ -449,94 +409,35 @@ p {
   #red3,
   #red4,
   #mover {
-    width: min(8vw, 6vh);
-    height: min(8vw, 6vh);
+    width: min(4vw, 3vh);
+    height: min(4vw, 3vh);
     touch-action: manipulation;
   }
-  
+
   .data,
   .timer {
     font-size: 0.9rem;
     padding: 0.5rem;
   }
-}
-@media (orientation: portrait) {
-  body {
-    justify-content: flex-start;
-    padding-top: 0.5rem;
-  }
-  
-  .main-container {
-    flex-direction: column;
-  }
-  
-  .game-column,
-  .info-column {
-    width: 100%;
-  }
-  
-  .circuit {
-    margin-bottom: 1rem;
-  }
-  
+
   .move-history {
-    height: 35vh;
-  }
-  
-  .leaderboard {
-    max-height: 25vh;
-  }
-}
-
-@media (min-width: 360px) and (max-width: 430px) {
-  body {
-    padding: 0.3rem;
-    gap: 0.4rem;
-  }
-  .player {
-    padding: 0.5rem;
-    gap: 0.3rem;
-  }
-  .red.player,
-  .blue.player {
-    padding: 0.3rem;
-  }
-  .data,
-  .timer {
-    font-size: 0.85rem;
-    padding: 0.4rem;
-  }
-  .text {
-    font-size: 0.9rem;
-    padding: 0.4rem;
-    margin: 0.4rem 0;
-  }
-  #circuit {
-    width: 90vw;
-  }
-  #gametimer {
-    margin: 0.4rem auto;
-    width: 120px;
+    width: 95vw;
     font-size: 1rem;
+    padding: 0.5rem;
+    margin: 0.5rem 0 0 0;
+    box-sizing: border-box;
+    height: 32vh;
+    max-height: 38vh;
+    overflow-y: auto;
   }
-  .toggle,
-  .reset,
-  .undo,
-  .redo {
-    margin: 0.4rem auto;
-    width: 120px;
-    height: 35px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 359px) {
-  .toggle,
-  .reset,
-  .undo,
-  .redo {
-    width: 100px;
-    height: 30px;
-    font-size: 0.8rem;
+  .leaderboard {
+    width: 95vw;
+    font-size: 1rem;
+    box-sizing: border-box;
+    height: 18vh;
+    max-height: 22vh;
+    overflow-y: auto;
+    margin-bottom: 3rem;
+    padding-bottom: 3rem;
   }
 }
